@@ -14,6 +14,7 @@ gem 'puma', '~> 4.1'
 gem 'devise_token_auth', '~> 1.1.4'
 
 gem 'rack-cors', '~> 1.1.1'
+gem 'net-http'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -25,6 +26,9 @@ end
 
 group :development do
   gem 'listen', '~> 3.2'
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end

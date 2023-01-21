@@ -1,0 +1,5 @@
+pt-BR:  
+  activerecord:
+    errors:
+      messages:
+        future_date: "É necessário que a data seja uma data futura"

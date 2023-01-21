@@ -1,0 +1,6 @@
+{
+    "ruby.rubocop.useBundler": true,
+    "ruby.rubocop.executePath": "/home/rubensmk1/.rvm/gems/ruby-2.7.1/wrappers/",
+    "ruby.rubocop.configFilePath": "/home/rubensmk1/Desktop/Onebitcode_Bootcamp/ecommerce-api/.rubocop.yml",
+    "ruby.rubocop.suppressRubocopWarnings": true
+}
