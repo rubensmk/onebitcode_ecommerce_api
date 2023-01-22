@@ -84,3 +84,12 @@ Rails/ApplicationRecord:
 
 Style/ClassAndModuleChildren:
   Enabled: false
+
+Layout/TrailingWhitespace:
+  Enabled: false
+
+Layout/EmptyLines:
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
