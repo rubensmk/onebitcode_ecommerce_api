@@ -13,7 +13,7 @@ RSpec.describe Coupon, type: :model do
   it { is_expected.to validate_numericality_of(:discount_value).is_greater_than(0) }
 
   it { is_expected.to validate_presence_of :max_use }
-  
+
   it {
     expect(subject).to validate_numericality_of(:max_use).only_integer.is_greater_than_or_equal_to(0)
   }

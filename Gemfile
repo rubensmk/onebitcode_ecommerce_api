@@ -9,12 +9,14 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.3'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
+gem 'rack-cors', '~> 1.1.1'
+gem 'net-http'
 
 # Auth
 gem 'devise_token_auth', '~> 1.1.4'
 
-gem 'rack-cors', '~> 1.1.1'
-gem 'net-http'
+# Rendering
+gem 'jbuilder', '~> 2.10.1'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
