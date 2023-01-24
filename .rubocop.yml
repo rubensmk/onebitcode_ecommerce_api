@@ -1,5 +1,4 @@
 AllCops:
-
   NewCops: disable
 
   Exclude:
@@ -92,4 +91,10 @@ Layout/EmptyLines:
   Enabled: false
 
 Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+RSpec/LetSetup:
   Enabled: false
