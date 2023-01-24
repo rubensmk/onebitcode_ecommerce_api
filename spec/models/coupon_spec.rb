@@ -37,4 +37,6 @@ RSpec.describe Coupon, type: :model do
     subject.valid?
     expect(subject.errors.keys).not_to include :due_date
   end
+
+  it_behaves_like "with paginatable concern", :coupon
 end
