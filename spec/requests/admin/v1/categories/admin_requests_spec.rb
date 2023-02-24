@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe "Admin::V1::Categories as :admin", type: :request do
+RSpec.describe "Admin V1 Categories as :admin", type: :request do
   let(:user) { create(:user) }
 
-  context "when GET /categories" do
+  context "GET /categories" do
     let(:url) { "/admin/v1/categories" }
     let!(:categories) { create_list(:category, 10) }
     
@@ -22,6 +22,10 @@ RSpec.describe "Admin::V1::Categories as :admin", type: :request do
       it "returns success status" do
         get url, headers: auth_header(user)
         expect(response).to have_http_status(:ok)
+      end
+
+      it_behaves_like "pagination meta attributes", { page: 1, length: 10, total: 10, total_pages: 1 } do
+        before { get url, headers: auth_header(user) }
       end
     end
 
@@ -46,6 +50,10 @@ RSpec.describe "Admin::V1::Categories as :admin", type: :request do
         get url, headers: auth_header(user), params: search_params
         expect(response).to have_http_status(:ok)
       end
+
+      it_behaves_like "pagination meta attributes", { page: 1, length: 10, total: 15, total_pages: 2 } do
+        before { get url, headers: auth_header(user), params: search_params }
+      end
     end
 
     context "with pagination params" do
@@ -69,6 +77,10 @@ RSpec.describe "Admin::V1::Categories as :admin", type: :request do
         get url, headers: auth_header(user), params: pagination_params
         expect(response).to have_http_status(:ok)
       end
+
+      it_behaves_like "pagination meta attributes", { page: 2, length: 5, total: 10, total_pages: 2 } do
+        before { get url, headers: auth_header(user), params: pagination_params }
+      end
     end
 
     context "with order params" do
@@ -85,31 +97,19 @@ RSpec.describe "Admin::V1::Categories as :admin", type: :request do
         get url, headers: auth_header(user), params: order_params
         expect(response).to have_http_status(:ok)
       end
+
+      it_behaves_like "pagination meta attributes", { page: 1, length: 10, total: 10, total_pages: 1 } do
+        before { get url, headers: auth_header(user), params: order_params }
+      end
     end
   end
 
-  context "when GET /categories/:id" do
-    let(:category) { create(:category) }
-    let(:url) { "/admin/v1/categories/#{category.id}" }
-  
-    it "returns requested Category" do
-      get url, headers: auth_header(user)
-      expected_category = category.as_json(only: %i[id name])
-      expect(body_json["category"]).to eq expected_category
-    end
-  
-    it "returns success status" do
-      get url, headers: auth_header(user)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
-  context "when POST /categories" do
+  context "POST /categories" do
     let(:url) { "/admin/v1/categories" }
-
+    
     context "with valid params" do
       let(:category_params) { { category: attributes_for(:category) }.to_json }
-      
+
       it "adds a new Category" do
         expect do
           post url, headers: auth_header(user), params: category_params
@@ -151,7 +151,23 @@ RSpec.describe "Admin::V1::Categories as :admin", type: :request do
     end
   end
 
-  context "when PATCH /categories/:id" do
+  context "GET /categories/:id" do
+    let(:category) { create(:category) }
+    let(:url) { "/admin/v1/categories/#{category.id}" }
+
+    it "returns requested Category" do
+      get url, headers: auth_header(user)
+      expected_category = category.as_json(only: %i[id name])
+      expect(body_json["category"]).to eq expected_category
+    end
+
+    it "returns success status" do
+      get url, headers: auth_header(user)
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  context "PATCH /categories/:id" do
     let(:category) { create(:category) }
     let(:url) { "/admin/v1/categories/#{category.id}" }
 
@@ -177,7 +193,7 @@ RSpec.describe "Admin::V1::Categories as :admin", type: :request do
         expect(response).to have_http_status(:ok)
       end
     end
-  
+
     context "with invalid params" do
       let(:category_invalid_params) do 
         { category: attributes_for(:category, name: nil) }.to_json
@@ -202,7 +218,7 @@ RSpec.describe "Admin::V1::Categories as :admin", type: :request do
     end
   end
 
-  context "when DELETE /categories/:id" do
+  context "DELETE /categories/:id" do
     let!(:category) { create(:category) }
     let(:url) { "/admin/v1/categories/#{category.id}" }
 
