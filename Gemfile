@@ -12,6 +12,9 @@ gem 'puma', '~> 4.1'
 gem 'rack-cors', '~> 1.1.1'
 gem 'net-http'
 
+# Validation
+gem 'cpf_cnpj', '~> 0.5.0'
+
 # Auth
 gem 'devise_token_auth', '~> 1.1.4'
 
