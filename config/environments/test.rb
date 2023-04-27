@@ -9,6 +9,8 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Turn false under Spring and add config.action_view.cache_template_loading = true.
+  config.active_job.queue_adapter = :test
+  
   config.cache_classes = true
 
   # Eager loading loads your whole application. When running a single test locally,
@@ -52,6 +54,11 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
+  
+
+  JUNO_AUTH_URL = "https://sandbox.boletobancario.com"
+  JUNO_RESOURCE_URL = "https://sandbox.boletobancario.com/api-integration"
+  
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

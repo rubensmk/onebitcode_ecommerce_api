@@ -23,7 +23,8 @@ module EcommerceApi
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
     config.i18n.default_locale = :'pt-BR'
 
-    config.api_only = true
+    config.api_only = false
+    config.session_store :cookie_store, key: '_interslice_session'
 
     # customer validators
     config.autoload_paths += %W["#{config.root}/app/validators/"]
