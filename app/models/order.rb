@@ -1,5 +1,7 @@
 class Order < ApplicationRecord
   before_validation :set_default_status, on: :create
+  after_commit :enqueue_juno_charge_creation, on: :create
+
   DAYS_TO_DUE = 7
 
   attribute :address
@@ -37,5 +39,10 @@ class Order < ApplicationRecord
 
   def set_default_status
     self.status = :processing_order
+  end
+
+  def enqueue_juno_charge_creation
+    order_attrs = { document: document, card_hash: card_hash, address: address.attributes }
+    Juno::ChargeCreationJob.perform_later(self, order_attrs)
   end
 end

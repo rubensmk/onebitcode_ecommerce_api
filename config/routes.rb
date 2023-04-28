@@ -24,4 +24,10 @@ Rails.application.routes.draw do
       post "/coupons/:coupon_code/validations", to: "coupon_validations#create"
     end
   end
+
+  namespace :juno do
+    namespace :v1 do
+      resources :payment_confirmations, only: :create
+    end
+  end
 end
