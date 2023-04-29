@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   before_validation :set_default_status, on: :create
   after_commit :enqueue_juno_charge_creation, on: :create
+  around_update :ship_order, if: -> { status_changed?(to: "payment_accepted") }
 
   DAYS_TO_DUE = 7
 
@@ -45,4 +46,10 @@ class Order < ApplicationRecord
     order_attrs = { document: document, card_hash: card_hash, address: address.attributes }
     Juno::ChargeCreationJob.perform_later(self, order_attrs)
   end
+
+  def ship_order
+    yield
+    line_items.each { |line_item| line_item.ship! }
+  end
+  
 end

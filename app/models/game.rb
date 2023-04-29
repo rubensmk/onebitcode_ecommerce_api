@@ -9,4 +9,8 @@ class Game < ApplicationRecord
   validates :mode, presence: true
   validates :release_date, presence: true
   validates :developer, presence: true
+
+  def ship!(line_item)
+    Admin::AlocateLicenseJob.perform_later(line_item)
+  end
 end
