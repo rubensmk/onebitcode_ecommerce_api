@@ -1,9 +1,12 @@
 require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
+require_relative '../lib/middlewares/static_token_auth'
 
 Rails.application.routes.draw do
+  Sidekiq::Web.use StaticTokenAuth
+  mount Sidekiq::Web => '/sidekiq/:token'
+
   mount_devise_token_auth_for 'User', at: 'auth/v1/user'
-  mount Sidekiq::Web => '/sidekiq'
 
   namespace :admin do
     namespace :v1 do
@@ -11,6 +14,12 @@ Rails.application.routes.draw do
       resources :categories, :users, :coupons, :system_requirements, :products
       resources :games, only: [], shallow: true do
         resources :licenses
+      end
+      resources :orders, only: [:index, :show]
+      namespace :dashboard do
+        resources :sales_ranges, only: :index
+        resources :summaries, only: :index
+        resources :top_five_products, only: :index
       end
     end
   end
@@ -23,6 +32,8 @@ Rails.application.routes.draw do
       resources :checkouts, only: [:create]
       resources :wish_items, only: [:index, :create, :destroy]
       post "/coupons/:coupon_code/validations", to: "coupon_validations#create"
+      resources :orders, only: [:index, :show]
+      resources :games, only: :index
     end
   end
 

@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  include Paginatable
+  
   before_validation :set_default_status, on: :create
   after_commit :enqueue_juno_charge_creation, on: :create
   around_update :ship_order, if: -> { status_changed?(to: "payment_accepted") }

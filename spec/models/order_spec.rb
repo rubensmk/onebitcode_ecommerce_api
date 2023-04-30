@@ -26,6 +26,8 @@ RSpec.describe Order, type: :model do
 
   it { is_expected.to have_many(:juno_charges) }
 
+  it_behaves_like "with paginatable concern", :order
+
   it "validates if :document is as CPF" do
     subject.document = "111.561.236-63"
     subject.validate
